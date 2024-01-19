@@ -1,14 +1,12 @@
 const { faker } = require('@faker-js/faker');
 const boom = require('@hapi/boom');
-const pool = require('./../libs/postgres.pool');
+const { models } = require('./../libs/sequelize'); // ya trae en su interior el pooling
 
 class ProductsService {
 
   constructor(){
     this.products = [];
-    this.generate();
-    this.pool = pool;
-    this.pool.on('error', (err) => console.error(err));
+    this.generate(); // no ejecutamos pool ya esta integrado en sequelize
   }
 
   generate() {
@@ -34,9 +32,8 @@ class ProductsService {
   }
 
   async find() {
-    const query = 'SELECT * FROM task';
-    const rta = await this.pool.query(query);
-    return rta.rows;
+    const rta = await models.Product.findAll();
+    return rta ;
   }
 
   async findOne(id) {
