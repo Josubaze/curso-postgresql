@@ -18,6 +18,10 @@ const ProductSchema = {
     allowNull: false,
     type: DataTypes.INTEGER
   },
+  price: {
+    allowNull: false,
+    type: DataTypes.INTEGER
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,

@@ -14,6 +14,6 @@ const sequelize = new Sequelize(URI, {
 
 setupModels(sequelize);
 
-sequelize.sync();
+sequelize.sync({ alter: true }); // permite modificaciones en la tabla
 
 module.exports = sequelize;
