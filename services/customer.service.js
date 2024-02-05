@@ -11,7 +11,9 @@ class CustomerService {
   }
 
   async find() {
-    const rta = await models.Customer.findAll();
+    const rta = await models.Customer.findAll({
+      include:[ 'user' ],
+    });
     return rta
   }
 
@@ -24,7 +26,16 @@ class CustomerService {
   }
 
   async create(data){
-    const newCustomer = await models.Customer.create(data)
+    /**const newUser = await models.User.create(data.user);  // forma manual de insertar el user
+    const newCustomer = await models.Customer.create({
+      ...data,
+      userId: newUser.id,
+    }) **/
+
+    // con sequelize a traves de la asociaciones...
+    const newCustomer = await models.Customer.create( data, {
+      include: ['user'],
+    })
     return newCustomer;
   }
 
