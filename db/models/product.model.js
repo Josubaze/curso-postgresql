@@ -25,7 +25,7 @@ const ProductSchema = {
   },
   image: {
     allowNull: false,
-    type: DataTypes.INTEGER
+    type: DataTypes.STRING
   },
   createdAt: {
     allowNull: false,
@@ -48,7 +48,11 @@ const ProductSchema = {
 
 class Product extends Model {
   static associate(models){
-    this.belongsTo(models.Category, { as: 'category'});
+    this.belongsTo(models.Category, {
+      as: 'category',
+      foreignKey: 'categoryId', // Nombre de la columna que representa la clave foránea, y se necesita para 1 a *
+    });
+
   }
   static config(sequelize){
     return {

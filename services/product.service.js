@@ -10,16 +10,7 @@ class ProductsService {
   }
 
   generate() {
-    const limit = 100;
-    for (let index = 0; index < limit; index++) {
-      this.products.push({
-        id: faker.datatype.uuid(),
-        name: faker.commerce.productName(),
-        price: parseInt(faker.commerce.price(), 10),
-        image: faker.image.imageUrl(),
-        isBlock: faker.datatype.boolean(),
-      });
-    }
+    //
   }
 
   async create(data) {
@@ -28,7 +19,9 @@ class ProductsService {
   }
 
   async find() {
-    const rta = await models.Product.findAll();
+    const rta = await models.Product.findAll({
+      include: 'category',
+    });
     return rta ;
   }
 
