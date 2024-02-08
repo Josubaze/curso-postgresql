@@ -1,4 +1,4 @@
-const { Model, DataTypes, Sequelize } = require('sequelize');
+const { Model, DataTypes, Sequelize, VIRTUAL } = require('sequelize');
 const { CUSTOMER_TABLE } = require('./customer.model');
 const ORDER_TABLE = 'orders';
 
@@ -26,6 +26,18 @@ const OrderSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
+  total: {
+    type: DataTypes.VIRTUAL,
+    get(){
+      if(this.items.length > 0){
+        return this.items.reduce((total, item) => {
+          return total + (item.price * item.OrderProduct.amount)
+        }, 0 );
+      }
+      return 0;
+    }
+  }
+
 }
 
 class Order extends Model {
