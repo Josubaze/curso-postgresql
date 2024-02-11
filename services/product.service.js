@@ -1,4 +1,5 @@
 const { faker } = require('@faker-js/faker');
+const { Op } = require('sequelize');
 const boom = require('@hapi/boom');
 const { models } = require('./../libs/sequelize'); // ya trae en su interior el pooling
 
@@ -21,12 +22,27 @@ class ProductsService {
   async find(query) {
     const options = {
       include: ['category'],
+      where: {}
     };
     const { limit, offset } = query;
     if( limit && offset ){
       options.limit = limit;
       options.offset = offset;
     }
+
+    const { price } = query;
+    if( price ){
+      options.where.price = price;
+    }
+
+    const { minPrice, maxPrice } = query;
+    if( minPrice && maxPrice ){
+      options.where.price = {
+        [Op.gte ]: minPrice,
+        [Op.lte ]: maxPrice
+      };
+    }
+
     const rta = await models.Product.findAll(options);
     return rta ;
   }
