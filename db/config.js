@@ -13,7 +13,7 @@ module.exports = {
     url: config.dbUrl,
     dialect:  'postgres',
     ssl: {
-      rejectUnauthorized: true
+      rejectUnauthorized: false
     }
   }
 }
