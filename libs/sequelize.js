@@ -8,18 +8,12 @@ const options = {
   logging:  config.isProd ? false : true,
   dialectOptions: {
     ssl: {
-      rejectUnauthorized: false
+      require: true,
+      rejectUnauthorized: false // Para evitar errores de autorización en entornos de desarrollo, considera establecerlo en true en producción.
     }
   }
 }
 
-if(config.isProd){
-  options.dialectOptions = {
-    ssl: {
-      rejectUnauthorized: false
-    }
-  }
-}
 
 const sequelize = new Sequelize(config.dbUrl, options);
 
